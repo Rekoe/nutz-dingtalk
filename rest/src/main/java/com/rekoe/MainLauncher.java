@@ -234,11 +234,6 @@ public class MainLauncher {
 				
 			}
 		}, Times.nextMinute(new Date(), 1));
-		try {
-			reportMealJob.execute(null);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Inject
