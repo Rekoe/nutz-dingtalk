@@ -21,7 +21,7 @@ import com.rekoe.service.DingTalkService;
 import com.rekoe.service.DingTalkUserService;
 
 @IocBean
-@Scheduled(cron = "0 0 17 ? * MON-SAT")
+//@Scheduled(cron = "0 0 17 ? * MON-SAT")
 public class NotificationMealJob implements Job {
 
 	@Inject
@@ -42,7 +42,7 @@ public class NotificationMealJob implements Job {
 				}
 			}
 		});
-		dingTalkService.sendDingTalkMarkDownMsg(uids, "加班餐订餐提醒", "# 加班餐订餐提醒-(测试请忽略) \n 如果需要定加班餐请在\n 北京时间 18:00前\n 通过钉钉手机客户端[OM美食]进入订餐系统\n");
+		dingTalkService.sendDingTalkMarkDownMsg(uids, "加班餐订餐提醒", "# 加班餐订餐提醒 \n 如果需要定加班餐请在\n 北京时间 18:00前\n 通过钉钉手机客户端[OM美食]进入订餐系统\n");
 	}
 
 }
