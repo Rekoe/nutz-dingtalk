@@ -36,7 +36,7 @@ public class DingTalkUser extends DataBaseEntity implements Serializable {
 	private boolean active;
 
 	@Column
-	@Default("http://momshop-media-hk.oss-cn-hongkong.aliyuncs.com/momshop-image-temp/15483326259653F.jpg")
+	@Default("http://momshop-media-hk.oss-cn-hongkong.aliyuncs.com/momshop-image-temp/155003795683146.jpeg")
 	@ColDefine(width = 1024)
 	private String avatar;
 

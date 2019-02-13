@@ -4,11 +4,11 @@
     <!-- 顶部通栏 开始 -->
     <div class="top-wrapper">
       <div class="back-wrapper">
-       
+        <span class="icon-arrow_lift"></span>
       </div>
       <form class="search-wrapper">
-       
-        
+        <span class="search-icon"></span>
+        <input class="search-bar" type="text" placeholder="搜索店内商品" @click="search"/>
       </form>
       <div class="more-wrapper">
         <a class="spelling-bt" @click="position">{{mapSite.province}}</a>
@@ -429,7 +429,6 @@
     background-position: center;
     border-radius: 5px;
     float: left;
-    margin-top: -53px;
   }
 
   .header .content-wrapper .name {
