@@ -1,6 +1,6 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 var path = require('path')
-var buildpath = '/Users/kouxian/git/nutz-platform/rest/src/main/resources/static/'
+var buildpath =	'../dist'
 //var buildpath = '../disk';	
 module.exports = {
   build: {
