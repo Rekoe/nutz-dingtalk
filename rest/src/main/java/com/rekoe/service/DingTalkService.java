@@ -48,7 +48,7 @@ public class DingTalkService {
 	private Dao dao;
 
 	private static String accessToken;
-	
+
 	@Inject("java:$conf.get('dingtalk.agentid')")
 	public String agentId;
 
@@ -105,6 +105,11 @@ public class DingTalkService {
 		@RequestLine("POST /message/send?access_token={access_token}")
 		String send(@Param("access_token") String access_token, @Param("msg") String msg);
 
+		@Body("{msg}")
+		@Headers("Content-Type: application/json")
+		@RequestLine("POST /topapi/smartwork/hrm/employee/listcontact?access_token={access_token}")
+		NutMap listcontact(@Param("access_token") String access_token, @Param("msg") String msg);
+
 		@RequestLine("GET /gettoken?corpid={corpid}&corpsecret={secret}")
 		NutMap refreshAccessToken(@Param("corpid") String corpid, @Param("secret") String secret);
 
@@ -127,6 +132,15 @@ public class DingTalkService {
 		default void sendDingDingMsg(List<String> uids, Message message) {
 			String json = message.toJsonString();
 			send(accessToken, json);
+		}
+
+		default NutMap listcontact(String... uids) {
+			StringBuffer sb = new StringBuffer();
+			for (String uid : uids) {
+				sb.append(uid).append(",");
+			}
+			sb.deleteCharAt(sb.length() - 1);
+			return listcontact(accessToken, Json.toJson(NutMap.NEW().addv("userid_list", sb)));
 		}
 
 		default NutMap get_jsapi_ticket() {
@@ -287,4 +301,9 @@ public class DingTalkService {
 	public NutMap getJsapiTicket() {
 		return this.dingTalk.get_jsapi_ticket();
 	}
+	public NutMap listcontact(String ...uids) {
+		return this.dingTalk.listcontact(uids);
+	}
+	
+	
 }

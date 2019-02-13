@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -21,6 +22,7 @@ import org.nutz.dao.Chain;
 import org.nutz.dao.Cnd;
 import org.nutz.dao.Dao;
 import org.nutz.dao.Sqls;
+import org.nutz.dao.sql.Sql;
 import org.nutz.dao.util.Daos;
 import org.nutz.el.opt.custom.CustomMake;
 import org.nutz.img.Images;
@@ -35,6 +37,7 @@ import org.nutz.lang.Each;
 import org.nutz.lang.ExitLoop;
 import org.nutz.lang.Lang;
 import org.nutz.lang.LoopException;
+import org.nutz.lang.Tasks;
 import org.nutz.lang.Times;
 import org.nutz.lang.util.NutMap;
 import org.nutz.log.Log;
@@ -52,10 +55,10 @@ import com.rekoe.common.vo.Result;
 import com.rekoe.core.bean.acl.Permission;
 import com.rekoe.core.bean.acl.Role;
 import com.rekoe.core.bean.acl.User;
-import com.rekoe.core.bean.meal.MealFood;
+import com.rekoe.job.NotificationMealJob;
+import com.rekoe.job.ReportMealJob;
 import com.rekoe.service.DingCanService;
 import com.rekoe.service.DingOauthService;
-import com.rekoe.service.DingTalkService;
 
 import club.zhcs.captcha.DefaultCaptchaGener;
 import club.zhcs.captcha.ImageVerification;
@@ -134,11 +137,14 @@ public class MainLauncher {
 	private DingOauthService dingOauthService;
 
 	@Inject
-	private DingTalkService dingTalkService;
+	private ReportMealJob reportMealJob;
 
 	public void init() {
-		dao.execute(Sqls.create("set @@GLOBAL.sql_mode=''"));
-		dao.execute(Sqls.create("set sql_mode ='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'"));
+		Sql sql = Sqls.create("set @@GLOBAL.sql_mode=''");
+		Sql sql2 = Sqls.create("set sql_mode ='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
+		sql.forceExecQuery();
+		sql2.forceExecQuery();
+		dao.execute(sql, sql2);
 		shiroWebSessionManager.setDeleteInvalidSessions(true);
 		NutShiro.DefaultUnauthorizedAjax = Json.fromJson(NutMap.class, Result.fail("无此授权").toString());
 		NutShiro.DefaultUnauthenticatedAjax = NutShiro.DefaultUnauthorizedAjax;
@@ -220,8 +226,23 @@ public class MainLauncher {
 			Role role = dao.insert(new Role("订餐查询", "查询订单详情", true));
 			dao.insert("system_role_permission", Chain.make("permissionid", permission.getId()).add("roleid", role.getId()));
 		}
-		dao.update(MealFood.class, Chain.make("onSale", false), Cnd.where("price", ">", 20).or("price", "=", 0F));
+		// dao.update(MealFood.class, Chain.make("onSale", false), Cnd.where("price",
+		// ">", 20).or("price", "=", 0F));
+		Tasks.scheduleAtFixedTime(new Runnable() {
+			@Override
+			public void run() {
+				
+			}
+		}, Times.nextMinute(new Date(), 1));
+		try {
+			reportMealJob.execute(null);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
+
+	@Inject
+	private NotificationMealJob notificationMealJob;
 
 	public static void main(String[] args) throws Exception {
 		new NbApp(MainLauncher.class).run();
