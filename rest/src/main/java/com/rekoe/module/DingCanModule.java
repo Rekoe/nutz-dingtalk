@@ -182,8 +182,10 @@ public class DingCanModule implements EventListener {
 		case "陕西省": {
 			break;
 		}
+		case "": {
+			return Result.fail("请先定位您的位置");
+		}
 		default:
-			System.err.println(userProvince);
 			return Result.fail("暂时只开通北京、西安两地订餐");
 		}
 		String time = Times.format("yyyyMMdd", now);

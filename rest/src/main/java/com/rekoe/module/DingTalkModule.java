@@ -73,6 +73,10 @@ public class DingTalkModule {
 				workPlace = "北京市";
 				break;
 			}
+			case "西安": {
+				workPlace = "陕西省";
+				break;
+			}
 			default:
 				break;
 			}
@@ -107,7 +111,6 @@ public class DingTalkModule {
 		return result;
 	}
 
-
 	@Aop("redis")
 	public String getTicket() {
 		String TICKET_KEY = "dingtalk.ticket." + dingTalkService.agentId;
@@ -131,7 +134,7 @@ public class DingTalkModule {
 		data.put("corpId", dingTalkService.CORPID);
 		data.put("timeStamp", System.currentTimeMillis() / 1000);
 		data.put("nonceStr", "abcdefg");
-		data.put("signature", DingTalkJsApiSingnature.getJsApiSingnature("http://" + param.getString("url","meal.rekoe.com") + "/", data.getString("nonceStr"), data.getLong("timeStamp"), ticket));
+		data.put("signature", DingTalkJsApiSingnature.getJsApiSingnature("http://" + param.getString("url", "meal.rekoe.com") + "/", data.getString("nonceStr"), data.getLong("timeStamp"), ticket));
 		data.put("jsApiList", new ArrayList<String>() {
 			private static final long serialVersionUID = 6978888486973671148L;
 			{
@@ -157,6 +160,9 @@ public class DingTalkModule {
 			return Result.fail("请在钉钉内部使用");
 		}
 		if (StringUtils.isNotBlank(workPlace)) {
+			if ("西安".contentEquals(workPlace)) {
+				workPlace = "陕西省";
+			}
 			Chain chain = Chain.make("userProvince", workPlace);
 			dingTalkUserService.update(chain, Cnd.where("userid", "=", dingTalkId));
 		}
