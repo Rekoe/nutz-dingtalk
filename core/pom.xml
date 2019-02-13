@@ -3,10 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.rekoe</groupId>
-		<artifactId>nutz-platform</artifactId>
+		<artifactId>nutz-dingtalk</artifactId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>nutz-platform-core</artifactId>
+	<artifactId>nutz-dingtalk-core</artifactId>
 	<build />
 	<dependencies>
 		<dependency>
