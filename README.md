@@ -81,3 +81,8 @@ var buildpath = '~/git/nutz-dingtalk/rest/src/main/resources/static/'
 
 http://waimai.meituan.com/restaurant/144689920684303686
 
+## 演示
+
+![view_1](ui/src/main/images/1.png)
+
+![view_2](ui/src/main/images/2.jepg)
