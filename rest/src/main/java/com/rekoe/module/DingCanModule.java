@@ -97,7 +97,7 @@ public class DingCanModule implements EventListener {
 		List<NutMap> foodSpuTags = new ArrayList<NutMap>();
 		Sql sql = Sqls.create("select id  from meal_seller $condition");
 		sql.setCallback(Sqls.callback.longs());
-		sql.setCondition(Cnd.where("province", "=", userProvince).and("deleted", "=", false));
+		sql.setCondition(Cnd.where("province", "=", userProvince).and("is_deleted", "=", false));
 		dao.execute(sql);
 		List<Long> sids = sql.getList(Long.class);
 		dao.each(FoodCategory.class, sellerId == -1 ? Cnd.where("seller_id", "in", sids) : Cnd.where("seller_id", "=", sellerId).asc("id"), new Each<FoodCategory>() {
