@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -37,7 +36,6 @@ import org.nutz.lang.Each;
 import org.nutz.lang.ExitLoop;
 import org.nutz.lang.Lang;
 import org.nutz.lang.LoopException;
-import org.nutz.lang.Tasks;
 import org.nutz.lang.Times;
 import org.nutz.lang.util.NutMap;
 import org.nutz.log.Log;
@@ -227,13 +225,14 @@ public class MainLauncher {
 			Role role = dao.insert(new Role("订餐查询", "查询订单详情", true));
 			dao.insert("system_role_permission", Chain.make("permissionid", permission.getId()).add("roleid", role.getId()));
 		}
-		dao.update(MealFood.class, Chain.make("onSale", false), Cnd.where("price", ">", 20).or("price", "=", 0F));
-		/**Tasks.scheduleAtFixedTime(new Runnable() {
-			@Override
-			public void run() {
-
-			}
-		}, Times.nextMinute(new Date(), 1));**/
+		dao.update(MealFood.class, Chain.make("onSale", false), Cnd.where("price", ">", 20).or("price", "=", 0F).or("price", "<", 1F));
+		/**
+		 * Tasks.scheduleAtFixedTime(new Runnable() {
+		 * 
+		 * @Override public void run() {
+		 * 
+		 *           } }, Times.nextMinute(new Date(), 1));
+		 **/
 	}
 
 	@Inject

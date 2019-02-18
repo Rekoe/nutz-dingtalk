@@ -134,7 +134,7 @@ public class MealSellerModule {
 						String image = param.get(name);
 						MealFood food = dao.fetch(MealFood.class, Cnd.where("name", "=", name).and("sellerId", "=", sellerId));
 						if (Lang.isEmpty(food)) {
-							food = dao.insert(new MealFood(name, sellerId, price > 20 || price == 0 ? false : true, itemId, price, name, name, 1, 100, oldPrice, image, image));
+							food = dao.insert(new MealFood(name, sellerId, price > 20 || price == 0 || price < 1 ? false : true, itemId, price, name, name, 1, 100, oldPrice, image, image));
 						}
 						Record r = dao.fetch("meal_food_category", Cnd.where("food_id", "=", food.getId()).and("category_id", "=", categoryId));
 						if (Lang.isEmpty(r)) {
