@@ -101,7 +101,7 @@
         if(!id){
           id = 2;
         }
-        this.$api.DingCan.new_goods(id,result => {
+        this.$api.DingCan.new_goods(id,this.userProvince,result => {
           this.container = result.data.container_operation_source
           this.goods = result.data.food_spu_tags
           if(!reload){
@@ -169,7 +169,8 @@
     computed: {
       ...mapState({
         orderedMeal: state => state.orderedMeal,
-        orderMeals: state => state.orderMeals
+        orderMeals: state => state.orderMeals,
+        userProvince: state => state.userProvince
       }),
       currentIndex() {
         for (let i = 0; i < this.listHeight.length; i++) {

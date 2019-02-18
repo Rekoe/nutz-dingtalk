@@ -10,6 +10,8 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.nutz.dao.Chain;
 import org.nutz.dao.Cnd;
 import org.nutz.dao.Dao;
+import org.nutz.dao.Sqls;
+import org.nutz.dao.sql.Sql;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.json.Json;
@@ -91,9 +93,14 @@ public class DingCanModule implements EventListener {
 		poiInfo.put("head_pic_url", "http://meal.rekoe.com/style/img/154901190572945.png");
 	}
 
-	private List<NutMap> loadFoods(long sellerId) {
+	private List<NutMap> loadFoods(long sellerId, String userProvince) {
 		List<NutMap> foodSpuTags = new ArrayList<NutMap>();
-		dao.each(FoodCategory.class, Cnd.where("seller_id", "=", sellerId).asc("id"), new Each<FoodCategory>() {
+		Sql sql = Sqls.create("select id  from meal_seller $condition");
+		sql.setCallback(Sqls.callback.longs());
+		sql.setCondition(Cnd.where("province", "=", userProvince).and("deleted", "=", false));
+		dao.execute(sql);
+		List<Long> sids = sql.getList(Long.class);
+		dao.each(FoodCategory.class, sellerId == -1 ? Cnd.where("seller_id", "in", sids) : Cnd.where("seller_id", "=", sellerId).asc("id"), new Each<FoodCategory>() {
 			@Override
 			public void invoke(int index, FoodCategory category, int length) throws ExitLoop, ContinueLoop, LoopException {
 				NutMap foodSpuTag = NutMap.NEW();
@@ -255,15 +262,19 @@ public class DingCanModule implements EventListener {
 
 	@At
 	@Ok("json")
-	public Result new_goods(@Param("id") long id) {
+	public Result new_goods(@Param("id") long id, @Param(value = "user_province", df = "北京市") String userProvince) {
 		NutMap tags = sellerFoodSpuTags.get(id);
 		if (tags == null) {
 			synchronized (lock) {
+				long iid = id;
+				if (id == -1) {
+					id = userProvince.hashCode();
+				}
 				tags = sellerFoodSpuTags.get(id);
 				if (tags == null) {
 					tags = NutMap.NEW();
 					tags.put("container_operation_source", special);
-					tags.put("food_spu_tags", loadFoods(id));
+					tags.put("food_spu_tags", loadFoods(iid, userProvince));
 					tags.put("code", 0);
 					tags.put("msg", "成功");
 					sellerFoodSpuTags.put(id, tags);
@@ -271,6 +282,10 @@ public class DingCanModule implements EventListener {
 			}
 		}
 		return Result.success().addData("data", tags);
+	}
+
+	public static void main(String[] args) {
+		System.out.println("陕西省".hashCode());
 	}
 
 	@At

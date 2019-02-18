@@ -13,8 +13,8 @@ export default {
     goods(id,success){
       http.get('dingcan/goods', {id:id}, success);
     },
-    new_goods(id,success){
-      http.get('dingcan/new_goods', {id:id}, success);
+    new_goods(id,userProvince,success){
+      http.get('dingcan/new_goods', {id:id,user_province:userProvince}, success);
     },
     new_ratings(success){
       http.get('dingcan/new_ratings', {}, success);
