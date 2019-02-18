@@ -80,7 +80,7 @@ public class DingCanModule implements EventListener {
 		poiInfo.put("discounts2", new ArrayList<NutMap>() {
 			private static final long serialVersionUID = 1010130327807565668L;
 			{
-				add(NutMap.NEW().addv("icon_url", "http://momshop-media-hk.oss-cn-hongkong.aliyuncs.com/momshop-image-temp/154901012070940.png").addv("info", poiInfo.getString("shipping_time")));
+				add(NutMap.NEW().addv("icon_url", "http://meal.rekoe.com/style/img/bulletin@2x.png").addv("info", poiInfo.getString("shipping_time")));
 			}
 		});
 		poiInfo.put("shipping_fee_tip", "限额¥20");
