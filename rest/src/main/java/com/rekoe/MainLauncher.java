@@ -55,6 +55,7 @@ import com.rekoe.common.vo.Result;
 import com.rekoe.core.bean.acl.Permission;
 import com.rekoe.core.bean.acl.Role;
 import com.rekoe.core.bean.acl.User;
+import com.rekoe.core.bean.meal.MealFood;
 import com.rekoe.job.NotificationMealJob;
 import com.rekoe.job.ReportMealJob;
 import com.rekoe.service.DingCanService;
@@ -226,14 +227,13 @@ public class MainLauncher {
 			Role role = dao.insert(new Role("订餐查询", "查询订单详情", true));
 			dao.insert("system_role_permission", Chain.make("permissionid", permission.getId()).add("roleid", role.getId()));
 		}
-		// dao.update(MealFood.class, Chain.make("onSale", false), Cnd.where("price",
-		// ">", 20).or("price", "=", 0F));
-		Tasks.scheduleAtFixedTime(new Runnable() {
+		dao.update(MealFood.class, Chain.make("onSale", false), Cnd.where("price", ">", 20).or("price", "=", 0F));
+		/**Tasks.scheduleAtFixedTime(new Runnable() {
 			@Override
 			public void run() {
-				
+
 			}
-		}, Times.nextMinute(new Date(), 1));
+		}, Times.nextMinute(new Date(), 1));**/
 	}
 
 	@Inject

@@ -59,7 +59,7 @@ public class MealSellerModule {
 		dao.execute(sqlu);
 		Record record = sqlu.getObject(Record.class);
 		String userProvince = record.getString("user_province");
-		return Result.success().addData("pager", mealSellerService.searchByPage(page, StringUtils.isNotBlank(userProvince)?Cnd.where("province", "=", userProvince).desc("id"):Cnd.NEW().desc("id")));
+		return Result.success().addData("pager", mealSellerService.searchByPage(page, StringUtils.isNotBlank(userProvince) ? Cnd.where("province", "=", userProvince).desc("id") : Cnd.NEW().desc("id")));
 	}
 
 	@At
@@ -74,7 +74,7 @@ public class MealSellerModule {
 	@At
 	@Ok("json")
 	@NutzRequiresPermissions(value = "meal.seller.collectiont", name = "商家采集", tag = "订餐管理", enable = true)
-	public Result collection(@Param("url") String url,@Param("province")String province) {
+	public Result collection(@Param("url") String url, @Param("province") String province) {
 		if (StringUtils.isBlank(url)) {
 			return Result.fail("采集地址不可以为空");
 		}
@@ -90,11 +90,11 @@ public class MealSellerModule {
 		String address = Xsoup.compile("//div[@class='rest-info-thirdpart poi-address']/p[2]/text()").evaluate(document).get();
 		String telephone = Xsoup.compile("//div[@class='telephone']/p[2]/text()").evaluate(document).get();
 		String description = Xsoup.compile("//head/meta[2]/@content").evaluate(document).get();
-		if(StringUtils.isBlank(seller)) {
+		if (StringUtils.isBlank(seller)) {
 			return Result.fail("请重试");
 		}
 		if (Lang.isEmpty(mealSeller)) {
-			mealSeller = dao.insert(new MealSeller(seller, description, sellerLogo, saleTime, address, telephone, url,province));
+			mealSeller = dao.insert(new MealSeller(seller, description, sellerLogo, saleTime, address, telephone, url, province));
 		}
 		long sellerId = mealSeller.getId();
 		List<String> menues = Xsoup.compile("//div[@class='category']").evaluate(document).list();
@@ -134,7 +134,7 @@ public class MealSellerModule {
 						String image = param.get(name);
 						MealFood food = dao.fetch(MealFood.class, Cnd.where("name", "=", name).and("sellerId", "=", sellerId));
 						if (Lang.isEmpty(food)) {
-							food = dao.insert(new MealFood(name, sellerId, true, itemId, price, name, name, 1, 100, oldPrice, image, image));
+							food = dao.insert(new MealFood(name, sellerId, price > 20 || price == 0 ? false : true, itemId, price, name, name, 1, 100, oldPrice, image, image));
 						}
 						Record r = dao.fetch("meal_food_category", Cnd.where("food_id", "=", food.getId()).and("category_id", "=", categoryId));
 						if (Lang.isEmpty(r)) {
