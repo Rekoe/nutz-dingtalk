@@ -117,7 +117,7 @@
         isPosition:false,
         name:"游客",
         poiInfo:{},
-        avatar:'http://momshop-media-hk.oss-cn-hongkong.aliyuncs.com/momshop-image-temp/155003795683146.jpeg',
+        avatar:'http://meal.rekoe.com/style/img/default.jpeg',
         mapSite:{
           province:'定位..',
           resultCode:1

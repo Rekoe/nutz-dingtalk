@@ -87,7 +87,7 @@ public class DingCanModule implements EventListener {
 		poiInfo.put("price_tip", "起送 ¥20");
 		poiInfo.put("delivery_time_tip", "每天19:00前");
 		poiInfo.put("poi_back_pic_url", "http://p1.meituan.net/aichequan/dfd39d77d47dfd6df4e1c07ab2e87458193641.png");
-		poiInfo.put("pic_url", "http://momshop-media-hk.oss-cn-hongkong.aliyuncs.com/momshop-image-temp/15483326259653F.jpg");
+		poiInfo.put("pic_url", "http://meal.rekoe.com/style/img/default.jpeg");
 		poiInfo.put("head_pic_url", "http://meal.rekoe.com/style/img/154901190572945.png");
 	}
 
