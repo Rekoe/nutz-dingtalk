@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.Sha256Hash;
+import org.apache.shiro.session.SessionListener;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
@@ -58,6 +59,7 @@ import com.rekoe.job.NotificationMealJob;
 import com.rekoe.job.ReportMealJob;
 import com.rekoe.service.DingCanService;
 import com.rekoe.service.DingOauthService;
+import com.rekoe.shiro.ShiroSessionListener;
 
 import club.zhcs.captcha.DefaultCaptchaGener;
 import club.zhcs.captcha.ImageVerification;
@@ -233,6 +235,9 @@ public class MainLauncher {
 		 * 
 		 *           } }, Times.nextMinute(new Date(), 1));
 		 **/
+		shiroWebSessionManager.getSessionListeners().forEach(s -> {
+			System.out.println(s);
+		});
 	}
 
 	@Inject

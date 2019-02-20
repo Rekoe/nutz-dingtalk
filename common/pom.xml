@@ -12,7 +12,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.rekoe</groupId>
-			<artifactId>nutz-platform-core</artifactId>
+			<artifactId>nutz-dingtalk-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

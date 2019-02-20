@@ -23,7 +23,7 @@ public class DingTalkStatusJob implements Job {
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		try {
-			dingTalkService.loadDingUser();
+			//dingTalkService.loadDingUser();
 		} catch (Exception e) {
 			log.error(e);
 		}
