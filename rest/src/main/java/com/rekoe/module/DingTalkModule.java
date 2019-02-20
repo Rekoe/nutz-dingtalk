@@ -53,7 +53,9 @@ public class DingTalkModule {
 		if (StringUtils.isBlank(authCode)) {
 			return Result.fail("授权失败");
 		}
+		System.out.println("request dingTalk auth start");
 		NutMap userInfo = dingTalkService.getuserinfo(authCode);
+		System.out.println("request dingTalk auth end");
 		int status = userInfo.getInt("errcode");
 		if (status != 0) {
 			return Result.fail(userInfo.getString("errmsg"));
