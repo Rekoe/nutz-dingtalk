@@ -33,8 +33,8 @@ import com.rekoe.service.DingTalkService;
  * @author kouxian
  *
  */
-//@IocBean
-//@Scheduled(cron = "0 10 18 * * ?")
+@IocBean
+@Scheduled(cron = "0 10 18 * * ?")
 public class ReportMealJob implements Job {
 
 	@Inject

@@ -133,7 +133,6 @@ public class MainLauncher {
 	@Inject
 	private DingOauthService dingOauthService;
 
-
 	public void init() {
 		Sql sql = Sqls.create("set @@GLOBAL.sql_mode=''");
 		Sql sql2 = Sqls.create("set sql_mode ='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
@@ -229,11 +228,8 @@ public class MainLauncher {
 		 * 
 		 *           } }, Times.nextMinute(new Date(), 1));
 		 **/
-		shiroWebSessionManager.getSessionListeners().forEach(s -> {
-			System.out.println(s);
-		});
-	}
 
+	}
 
 	public static void main(String[] args) throws Exception {
 		new NbApp(MainLauncher.class).run();

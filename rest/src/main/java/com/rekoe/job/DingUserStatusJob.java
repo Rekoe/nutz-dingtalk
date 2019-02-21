@@ -29,8 +29,8 @@ import com.rekoe.core.bean.acl.User;
 import com.rekoe.core.bean.dingtalk.DingTalkUser;
 import com.rekoe.service.DingTalkService;
 
-//@IocBean(create = "exec")
-//@Scheduled(cron = "0 0 09 ? * MON-SAT")
+@IocBean(create = "exec")
+@Scheduled(cron = "0 0 09 ? * MON-SAT")
 public class DingUserStatusJob implements Job {
 
 	private final static Log log = Logs.get();
@@ -55,26 +55,32 @@ public class DingUserStatusJob implements Job {
 	}
 
 	public void exec() {
-		while (true) {
-			try {
-				final Record record = uids.take();
-				String userid = record.getString("userid");
-				if (StringUtils.isNotBlank(userid)) {
-					NutMap d = dingTalkService.listcontact(userid);
-					Lang.each(d.getAsList("result", NutMap.class), new Each<NutMap>() {
-						@Override
-						public void invoke(int index, NutMap ele, int length) throws ExitLoop, ContinueLoop, LoopException {
-							String userid = ele.getString("userid");
-							Chain chain = Chain.make("active", false);
-							dao.update(DingTalkUser.class, chain, Cnd.where("userid", "=", userid));
-							dao.update(User.class, Chain.make("locked", true), Cnd.where("openid", "=", record.getString("open_id")));
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				while (true) {
+					try {
+						final Record record = uids.take();
+						String userid = record.getString("userid");
+						if (StringUtils.isNotBlank(userid)) {
+							NutMap d = dingTalkService.listcontact(userid);
+							Lang.each(d.getAsList("result", NutMap.class), new Each<NutMap>() {
+								@Override
+								public void invoke(int index, NutMap ele, int length) throws ExitLoop, ContinueLoop, LoopException {
+									String userid = ele.getString("userid");
+									Chain chain = Chain.make("active", false);
+									dao.update(DingTalkUser.class, chain, Cnd.where("userid", "=", userid));
+									dao.update(User.class, Chain.make("locked", true), Cnd.where("openid", "=", record.getString("open_id")));
+								}
+							});
 						}
-					});
+					} catch (InterruptedException e) {
+						log.error(e);
+					}
 				}
-			} catch (InterruptedException e) {
-				log.error(e);
+
 			}
-		}
+		}).start();
 	}
 
 }

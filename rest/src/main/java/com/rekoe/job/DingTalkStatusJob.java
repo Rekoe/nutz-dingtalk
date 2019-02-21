@@ -11,8 +11,8 @@ import org.quartz.JobExecutionException;
 
 import com.rekoe.service.DingTalkService;
 
-//@IocBean
-//@Scheduled(cron = "0 0 08 ? * MON-SAT")
+@IocBean
+@Scheduled(cron = "0 0 08 ? * MON-SAT")
 public class DingTalkStatusJob implements Job {
 
 	private final static Log log = Logs.get();
@@ -23,7 +23,7 @@ public class DingTalkStatusJob implements Job {
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		try {
-			//dingTalkService.loadDingUser();
+			dingTalkService.loadDingUser();
 		} catch (Exception e) {
 			log.error(e);
 		}
