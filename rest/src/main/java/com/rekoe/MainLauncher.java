@@ -13,7 +13,6 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.Sha256Hash;
-import org.apache.shiro.session.SessionListener;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
@@ -56,10 +55,8 @@ import com.rekoe.core.bean.acl.Role;
 import com.rekoe.core.bean.acl.User;
 import com.rekoe.core.bean.meal.MealFood;
 import com.rekoe.job.NotificationMealJob;
-import com.rekoe.job.ReportMealJob;
 import com.rekoe.service.DingCanService;
 import com.rekoe.service.DingOauthService;
-import com.rekoe.shiro.ShiroSessionListener;
 
 import club.zhcs.captcha.DefaultCaptchaGener;
 import club.zhcs.captcha.ImageVerification;
@@ -137,8 +134,6 @@ public class MainLauncher {
 	@Inject
 	private DingOauthService dingOauthService;
 
-	@Inject
-	private ReportMealJob reportMealJob;
 
 	public void init() {
 		Sql sql = Sqls.create("set @@GLOBAL.sql_mode=''");
