@@ -29,8 +29,8 @@ import com.rekoe.core.bean.acl.User;
 import com.rekoe.core.bean.dingtalk.DingTalkUser;
 import com.rekoe.service.DingTalkService;
 
-@IocBean(create = "exec")
-@Scheduled(cron = "0 0 09 ? * MON-SAT")
+//@IocBean(create = "exec")
+//@Scheduled(cron = "0 0 09 ? * MON-SAT")
 public class DingUserStatusJob implements Job {
 
 	private final static Log log = Logs.get();

@@ -14,11 +14,9 @@ import org.nutz.dao.Sqls;
 import org.nutz.dao.sql.Sql;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
-import org.nutz.json.Json;
 import org.nutz.lang.ContinueLoop;
 import org.nutz.lang.Each;
 import org.nutz.lang.ExitLoop;
-import org.nutz.lang.Files;
 import org.nutz.lang.Lang;
 import org.nutz.lang.LoopException;
 import org.nutz.lang.Times;
@@ -252,12 +250,6 @@ public class DingCanModule implements EventListener {
 		return Result.success();
 	}
 
-	@At
-	@Ok("json")
-	public Result new_ratings(@Param("::") NutMap param) {
-		return Result.success().addData(Json.fromJson(NutMap.class, Files.read("ratings.json")));
-	}
-
 	private final Object lock = new Object();
 
 	@At
@@ -286,12 +278,6 @@ public class DingCanModule implements EventListener {
 
 	public static void main(String[] args) {
 		System.out.println("陕西省".hashCode());
-	}
-
-	@At
-	@Ok("json")
-	public Result new_seller(@Param("::") NutMap param) {
-		return Result.success().addData(Json.fromJson(NutMap.class, Files.read("seller.json")));
 	}
 
 	@At

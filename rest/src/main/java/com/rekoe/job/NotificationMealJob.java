@@ -20,7 +20,7 @@ import com.rekoe.core.bean.dingtalk.DingTalkUser;
 import com.rekoe.service.DingTalkService;
 import com.rekoe.service.DingTalkUserService;
 
-@IocBean
+//@IocBean
 //@Scheduled(cron = "0 0 17 ? * MON-SAT")
 public class NotificationMealJob implements Job {
 
