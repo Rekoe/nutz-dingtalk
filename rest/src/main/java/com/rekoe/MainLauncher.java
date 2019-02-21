@@ -54,7 +54,6 @@ import com.rekoe.core.bean.acl.Permission;
 import com.rekoe.core.bean.acl.Role;
 import com.rekoe.core.bean.acl.User;
 import com.rekoe.core.bean.meal.MealFood;
-import com.rekoe.job.NotificationMealJob;
 import com.rekoe.service.DingCanService;
 import com.rekoe.service.DingOauthService;
 
@@ -235,8 +234,6 @@ public class MainLauncher {
 		});
 	}
 
-	@Inject
-	private NotificationMealJob notificationMealJob;
 
 	public static void main(String[] args) throws Exception {
 		new NbApp(MainLauncher.class).run();
